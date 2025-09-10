@@ -10,7 +10,7 @@ import { sql } from 'drizzle-orm';
 
 const string = (name: string) => varchar(name, { length: 192 });
 
-export const videos = mysqlTable('videos', {
+export const Videos = mysqlTable('videos', {
     id: int('id').primaryKey().autoincrement(),
     modelId: int('model_id').notNull(),
     title: string('title').notNull(),
@@ -27,9 +27,9 @@ export const videos = mysqlTable('videos', {
         .notNull()
         .default(sql`CURRENT_TIMESTAMP`),
 });
-export type Videos = typeof videos.$inferSelect;
+export type tVideos = typeof Videos.$inferSelect;
 
-export const purchases = mysqlTable('purchases', {
+export const Purchases = mysqlTable('purchases', {
     id: int('id').primaryKey().autoincrement(),
     userId: int('user_id').notNull(),
     videoId: int('video_id').notNull(),
@@ -41,9 +41,9 @@ export const purchases = mysqlTable('purchases', {
         .notNull()
         .$onUpdateFn(() => sql`CURRENT_TIMESTAMP`),
 });
-export type Purchases = typeof purchases.$inferSelect;
+export type Pturchases = typeof Purchases.$inferSelect;
 
-export const users = mysqlTable('users', {
+export const Users = mysqlTable('users', {
     id: int('id').primaryKey().autoincrement(),
     email: string('email').notNull(),
     slug: string('slug').notNull(),
@@ -54,12 +54,12 @@ export const users = mysqlTable('users', {
         .notNull()
         .$onUpdateFn(() => sql`CURRENT_TIMESTAMP`),
 });
-export type Users = typeof users.$inferSelect;
+export type tUsers = typeof Users.$inferSelect;
 
-export const artists = mysqlTable('artists', {
+export const Artists = mysqlTable('artists', {
     id: int('id').primaryKey().autoincrement(),
     name: string('name').notNull(),
-    slug: string('slug').notNull(),
+    slug: string('slug').notNull().unique(),
     bio: text('bio'),
     profilePictureUrl: string('profile_picture_url'),
     createdAt: datetime('created_at')
@@ -69,4 +69,4 @@ export const artists = mysqlTable('artists', {
         .notNull()
         .$onUpdateFn(() => sql`CURRENT_TIMESTAMP`),
 });
-export type Artists = typeof artists.$inferSelect;
+export type tArtists = typeof Artists.$inferSelect;
